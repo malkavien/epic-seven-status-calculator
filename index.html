@@ -212,8 +212,6 @@
       const attackPercent = attackResult !== "-" ? (attackResult / attackBase) * 100 : "-";
       const healthPercent = healthResult !== "-" ? (healthResult / healthBase) * 100 : "-";
       const defensePercent = defenseResult !== "-" ? (defenseResult / defenseBase) * 100 : "-";
-      const resistancePercent = resistanceResult !== "-" ? (resistanceResult / resistanceBase) * 100 : "-";
-      const effectivenessPercent = effectivenessResult !== "-" ? (effectivenessResult / effectivenessBase) * 100 : "-";
 
       // Exibir os resultados
       document.getElementById('resultados').innerHTML = `
@@ -222,8 +220,8 @@
         <p>❤️ HP: ${healthResult} | ${healthPercent !== "-" ? healthPercent.toFixed(2) + "%" : "-"}</p>
         <p>⚡ Velocidade: ${speedResult}}</p>
         <p>🛡️ Defesa: ${defenseResult} | ${defensePercent !== "-" ? defensePercent.toFixed(2) + "%" : "-"}</p>
-        <p>🛡️ Resistência: ${resistanceResult} | ${resistancePercent !== "-" ? resistancePercent.toFixed(2) + "%" : "-"}</p>
-        <p>🎯 Eficácia: ${effectivenessResult} | ${effectivenessPercent !== "-" ? effectivenessPercent.toFixed(2) + "%" : "-"}</p>
+        <p>🛡️ Resistência: ${resistanceResult}}%</p>
+        <p>🎯 Eficácia: ${effectivenessResult}}%</p>
       `;
     }
 
