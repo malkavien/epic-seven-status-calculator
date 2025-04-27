@@ -62,6 +62,13 @@
       background-color: #e9e9e9;
       border-radius: 5px;
     }
+
+    .status-base {
+      background-color: #ddd;
+      padding: 10px;
+      border-radius: 5px;
+      font-weight: bold;
+    }
   </style>
 </head>
 <body>
@@ -77,29 +84,40 @@
     </div>
 
     <div class="fields-column">
-      <label>⚔️ Ataque Base:</label>
-      <input type="number" id="attackBase" placeholder="Ex: 355" readonly>
-      <label>❤️ HP Base:</label>
-      <input type="number" id="healthBase" placeholder="Ex: 3508" readonly>
-      <label>⚡ Velocidade Base:</label>
-      <input type="number" id="speedBase" placeholder="Ex: 91" readonly>
-      <label>🛡️ Defesa Base:</label>
-      <input type="number" id="defenseBase" placeholder="Ex: 429" readonly>
-      <label>🎯 Eficácia Base:</label>
-      <input type="number" id="effectivenessBase" placeholder="Ex: 0.0" readonly>
+      <h3>Status Base do Herói Selecionado:</h3>
+      <div id="statusBase" class="status-base">
+        <p><strong>Ataque Base:</strong> <span id="attackBase"></span></p>
+        <p><strong>HP Base:</strong> <span id="healthBase"></span></p>
+        <p><strong>Velocidade Base:</strong> <span id="speedBase"></span></p>
+        <p><strong>Defesa Base:</strong> <span id="defenseBase"></span></p>
+        <p><strong>Eficácia Base:</strong> <span id="effectivenessBase"></span></p>
+      </div>
+    </div>
+
+    <div class="fields-column">
+      <label>⚔️ Ataque Atual:</label>
+      <input type="number" id="attackCurrent" placeholder="Ex: 400">
+      <label>❤️ HP Atual:</label>
+      <input type="number" id="healthCurrent" placeholder="Ex: 8000">
+      <label>⚡ Velocidade Atual:</label>
+      <input type="number" id="speedCurrent" placeholder="Ex: 100">
+      <label>🛡️ Defesa Atual:</label>
+      <input type="number" id="defenseCurrent" placeholder="Ex: 500">
+      <label>🎯 Eficácia Atual:</label>
+      <input type="number" id="effectivenessCurrent" placeholder="Ex: 15.0">
     </div>
 
     <div class="fields-column">
       <label>⚔️ Ataque Desejado:</label>
-      <input type="number" id="attackDesired" placeholder="Ex: 400">
+      <input type="number" id="attackDesired" placeholder="Ex: 500">
       <label>❤️ HP Desejado:</label>
-      <input type="number" id="healthDesired" placeholder="Ex: 8000">
+      <input type="number" id="healthDesired" placeholder="Ex: 9000">
       <label>⚡ Velocidade Desejada:</label>
-      <input type="number" id="speedDesired" placeholder="Ex: 100">
+      <input type="number" id="speedDesired" placeholder="Ex: 110">
       <label>🛡️ Defesa Desejada:</label>
-      <input type="number" id="defenseDesired" placeholder="Ex: 500">
+      <input type="number" id="defenseDesired" placeholder="Ex: 600">
       <label>🎯 Eficácia Desejada:</label>
-      <input type="number" id="effectivenessDesired" placeholder="Ex: 15.0">
+      <input type="number" id="effectivenessDesired" placeholder="Ex: 20.0">
     </div>
   </div>
 
@@ -130,40 +148,54 @@
       const heroi = herois.find(h => h.nome === nomeHeroi);
 
       if (heroi) {
-        document.getElementById('attackBase').value = heroi.attackBase;
-        document.getElementById('healthBase').value = heroi.healthBase;
-        document.getElementById('speedBase').value = heroi.speedBase;
-        document.getElementById('defenseBase').value = heroi.defenseBase;
-        document.getElementById('effectivenessBase').value = heroi.effectivenessBase;
+        document.getElementById('attackBase').textContent = heroi.attackBase;
+        document.getElementById('healthBase').textContent = heroi.healthBase;
+        document.getElementById('speedBase').textContent = heroi.speedBase;
+        document.getElementById('defenseBase').textContent = heroi.defenseBase;
+        document.getElementById('effectivenessBase').textContent = heroi.effectivenessBase;
       } else {
-        document.getElementById('attackBase').value = '';
-        document.getElementById('healthBase').value = '';
-        document.getElementById('speedBase').value = '';
-        document.getElementById('defenseBase').value = '';
-        document.getElementById('effectivenessBase').value = '';
+        document.getElementById('attackBase').textContent = '';
+        document.getElementById('healthBase').textContent = '';
+        document.getElementById('speedBase').textContent = '';
+        document.getElementById('defenseBase').textContent = '';
+        document.getElementById('effectivenessBase').textContent = '';
       }
     }
 
-    // Função para calcular a diferença entre o status desejado e atual e calcular a porcentagem em relação ao status base
+    // Função para calcular a diferença entre o status desejado e o status atual e calcular a porcentagem em relação ao status base
     function calcular() {
+      const attackCurrent = parseInt(document.getElementById('attackCurrent').value);
+      const healthCurrent = parseInt(document.getElementById('healthCurrent').value);
+      const speedCurrent = parseInt(document.getElementById('speedCurrent').value);
+      const defenseCurrent = parseInt(document.getElementById('defenseCurrent').value);
+      const effectivenessCurrent = parseFloat(document.getElementById('effectivenessCurrent').value);
+
       const attackDesired = parseInt(document.getElementById('attackDesired').value);
       const healthDesired = parseInt(document.getElementById('healthDesired').value);
       const speedDesired = parseInt(document.getElementById('speedDesired').value);
       const defenseDesired = parseInt(document.getElementById('defenseDesired').value);
       const effectivenessDesired = parseFloat(document.getElementById('effectivenessDesired').value);
 
-      const attackBase = parseInt(document.getElementById('attackBase').value);
-      const healthBase = parseInt(document.getElementById('healthBase').value);
-      const speedBase = parseInt(document.getElementById('speedBase').value);
-      const defenseBase = parseInt(document.getElementById('defenseBase').value);
-      const effectivenessBase = parseFloat(document.getElementById('effectivenessBase').value);
+      const nomeHeroi = document.getElementById('heroSelect').value;
+      const heroi = herois.find(h => h.nome === nomeHeroi);
+
+      if (!heroi) {
+        alert('Por favor, selecione um herói!');
+        return;
+      }
+
+      const attackBase = heroi.attackBase;
+      const healthBase = heroi.healthBase;
+      const speedBase = heroi.speedBase;
+      const defenseBase = heroi.defenseBase;
+      const effectivenessBase = heroi.effectivenessBase;
 
       // Calcular a diferença entre o status desejado e o status atual
-      const attackResult = attackDesired - attackBase;
-      const healthResult = healthDesired - healthBase;
-      const speedResult = speedDesired - speedBase;
-      const defenseResult = defenseDesired - defenseBase;
-      const effectivenessResult = effectivenessDesired - effectivenessBase;
+      const attackResult = attackDesired - attackCurrent;
+      const healthResult = healthDesired - healthCurrent;
+      const speedResult = speedDesired - speedCurrent;
+      const defenseResult = defenseDesired - defenseCurrent;
+      const effectivenessResult = effectivenessDesired - effectivenessCurrent;
 
       // Calcular a porcentagem em relação ao status base
       const attackPercent = (attackResult / attackBase) * 100;
