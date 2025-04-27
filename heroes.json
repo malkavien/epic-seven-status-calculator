@@ -5,11 +5,9 @@
       "healthBase": 3508,
       "speedBase": 91,
       "defenseBase": 429,
-      "critHitChanceBase": 15.0,
-      "critHitDamageBase": 150.0,
       "dualAttackChanceBase": 5.0,
       "effectivenessBase": 0.0,
-      "effectResistanceBase": 0.0
+      "resistanceBase": 0.0
     },
     {
       "nome": "Luna",
@@ -17,11 +15,8 @@
       "healthBase": 3300,
       "speedBase": 97,
       "defenseBase": 420,
-      "critHitChanceBase": 18.0,
-      "critHitDamageBase": 160.0,
-      "dualAttackChanceBase": 6.0,
       "effectivenessBase": 10.0,
-      "effectResistanceBase": 5.0
+      "resistanceBase": 5.0
     }
   ]
   
