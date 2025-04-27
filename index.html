@@ -90,6 +90,7 @@
         <p><strong>HP Base:</strong> <span id="healthBase"></span></p>
         <p><strong>Velocidade Base:</strong> <span id="speedBase"></span></p>
         <p><strong>Defesa Base:</strong> <span id="defenseBase"></span></p>
+        <p><strong>Resistência Base:</strong> <span id="resistanceBase"></span></p>
         <p><strong>Eficácia Base:</strong> <span id="effectivenessBase"></span></p>
       </div>
     </div>
@@ -103,6 +104,8 @@
       <input type="number" id="speedCurrent" placeholder="Ex: 100">
       <label>🛡️ Defesa Atual:</label>
       <input type="number" id="defenseCurrent" placeholder="Ex: 500">
+      <label>🛡️ Resistência Atual:</label>
+      <input type="number" id="resistanceCurrent" placeholder="Ex: 150">
       <label>🎯 Eficácia Atual:</label>
       <input type="number" id="effectivenessCurrent" placeholder="Ex: 15.0">
     </div>
@@ -116,6 +119,8 @@
       <input type="number" id="speedDesired" placeholder="Ex: 110">
       <label>🛡️ Defesa Desejada:</label>
       <input type="number" id="defenseDesired" placeholder="Ex: 600">
+      <label>🛡️ Resistência Desejada:</label>
+      <input type="number" id="resistanceDesired" placeholder="Ex: 180">
       <label>🎯 Eficácia Desejada:</label>
       <input type="number" id="effectivenessDesired" placeholder="Ex: 20.0">
     </div>
@@ -152,12 +157,14 @@
         document.getElementById('healthBase').textContent = heroi.healthBase;
         document.getElementById('speedBase').textContent = heroi.speedBase;
         document.getElementById('defenseBase').textContent = heroi.defenseBase;
+        document.getElementById('resistanceBase').textContent = heroi.resistanceBase;
         document.getElementById('effectivenessBase').textContent = heroi.effectivenessBase;
       } else {
         document.getElementById('attackBase').textContent = '';
         document.getElementById('healthBase').textContent = '';
         document.getElementById('speedBase').textContent = '';
         document.getElementById('defenseBase').textContent = '';
+        document.getElementById('resistanceBase').textContent = '';
         document.getElementById('effectivenessBase').textContent = '';
       }
     }
@@ -168,12 +175,14 @@
       const healthCurrent = parseInt(document.getElementById('healthCurrent').value);
       const speedCurrent = parseInt(document.getElementById('speedCurrent').value);
       const defenseCurrent = parseInt(document.getElementById('defenseCurrent').value);
+      const resistanceCurrent = parseInt(document.getElementById('resistanceCurrent').value);
       const effectivenessCurrent = parseFloat(document.getElementById('effectivenessCurrent').value);
 
       const attackDesired = parseInt(document.getElementById('attackDesired').value);
       const healthDesired = parseInt(document.getElementById('healthDesired').value);
       const speedDesired = parseInt(document.getElementById('speedDesired').value);
       const defenseDesired = parseInt(document.getElementById('defenseDesired').value);
+      const resistanceDesired = parseInt(document.getElementById('resistanceDesired').value);
       const effectivenessDesired = parseFloat(document.getElementById('effectivenessDesired').value);
 
       const nomeHeroi = document.getElementById('heroSelect').value;
@@ -188,6 +197,7 @@
       const healthBase = heroi.healthBase;
       const speedBase = heroi.speedBase;
       const defenseBase = heroi.defenseBase;
+      const resistanceBase = heroi.resistanceBase;
       const effectivenessBase = heroi.effectivenessBase;
 
       // Calcular a diferença entre o status desejado e o status atual
@@ -195,6 +205,7 @@
       const healthResult = healthDesired - healthCurrent;
       const speedResult = speedDesired - speedCurrent;
       const defenseResult = defenseDesired - defenseCurrent;
+      const resistanceResult = resistanceDesired - resistanceCurrent;
       const effectivenessResult = effectivenessDesired - effectivenessCurrent;
 
       // Calcular a porcentagem em relação ao status base
@@ -202,6 +213,7 @@
       const healthPercent = (healthResult / healthBase) * 100;
       const speedPercent = (speedResult / speedBase) * 100;
       const defensePercent = (defenseResult / defenseBase) * 100;
+      const resistancePercent = (resistanceResult / resistanceBase) * 100;
       const effectivenessPercent = (effectivenessResult / effectivenessBase) * 100;
 
       // Exibir os resultados
@@ -209,15 +221,15 @@
         <h3>Resultados:</h3>
         <p>⚔️ Ataque: ${attackResult} | ${attackPercent.toFixed(2)}%</p>
         <p>❤️ HP: ${healthResult} | ${healthPercent.toFixed(2)}%</p>
-        <p>⚡ Velocidade: ${speedResult} | ${speedPercent.toFixed(2)}%</p>
+        <p>⚡ Velocidade: ${speedResult}</p>
         <p>🛡️ Defesa: ${defenseResult} | ${defensePercent.toFixed(2)}%</p>
+        <p>🛡️ Resistência: ${resistanceResult} | ${resistancePercent.toFixed(2)}%</p>
         <p>🎯 Eficácia: ${effectivenessResult} | ${effectivenessPercent.toFixed(2)}%</p>
       `;
     }
 
-    // Carregar os heróis ao inicializar a página
-    carregarHerois();
+    // Carregar os heróis ao carregar a página
+    window.onload = carregarHerois;
   </script>
-
 </body>
 </html>
