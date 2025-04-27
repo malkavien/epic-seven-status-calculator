@@ -1,0 +1,18 @@
+[
+    {
+      "nome": "Armin",
+      "hpBase": 8000,
+      "defBase": 1000,
+      "speedBase": 150,
+      "resBase": 90,
+      "efiBase": 30
+    },
+    {
+      "nome": "Luna",
+      "hpBase": 7200,
+      "defBase": 950,
+      "speedBase": 160,
+      "resBase": 85,
+      "efiBase": 40
+    }
+  ]
