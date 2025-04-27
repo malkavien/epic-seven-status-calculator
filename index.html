@@ -77,52 +77,51 @@
 
   <div class="calculator">
     <div class="fields-column">
-      <label for="heroSelect">Escolha o Herói:</label>
-      <select id="heroSelect" onchange="atualizarStatusBase()">
-        <option value="">Selecione um Herói</option>
-      </select>
-    </div>
-
-    <div class="fields-column">
-      <h3>Status Base do Herói Selecionado:</h3>
+      <h3>Status Base do Herói:</h3>
       <div id="statusBase" class="status-base">
-        <p><strong>Ataque Base:</strong> <span id="attackBase"></span></p>
-        <p><strong>HP Base:</strong> <span id="healthBase"></span></p>
-        <p><strong>Velocidade Base:</strong> <span id="speedBase"></span></p>
-        <p><strong>Defesa Base:</strong> <span id="defenseBase"></span></p>
-        <p><strong>Resistência Base:</strong> <span id="resistanceBase"></span></p>
-        <p><strong>Eficácia Base:</strong> <span id="effectivenessBase"></span></p>
+        <label for="attackBase">Ataque Base:</label>
+        <input type="number" id="attackBase" placeholder="Ex: 355" />
+        <label for="healthBase">HP Base:</label>
+        <input type="number" id="healthBase" placeholder="Ex: 3508" />
+        <label for="speedBase">Velocidade Base:</label>
+        <input type="number" id="speedBase" placeholder="Ex: 91" />
+        <label for="defenseBase">Defesa Base:</label>
+        <input type="number" id="defenseBase" placeholder="Ex: 429" />
+        <label for="resistanceBase">Resistência Base:</label>
+        <input type="number" id="resistanceBase" placeholder="Ex: 150" />
+        <label for="effectivenessBase">Eficácia Base:</label>
+        <input type="number" id="effectivenessBase" placeholder="Ex: 0.0" />
       </div>
     </div>
 
     <div class="fields-column">
       <label>⚔️ Ataque Atual:</label>
-      <input type="number" id="attackCurrent" placeholder="Ex: 1800">
+      <input type="number" id="attackCurrent" placeholder="Ex: 400">
       <label>❤️ HP Atual:</label>
-      <input type="number" id="healthCurrent" placeholder="Ex: 13000">
+      <input type="number" id="healthCurrent" placeholder="Ex: 8000">
       <label>⚡ Velocidade Atual:</label>
-      <input type="number" id="speedCurrent" placeholder="Ex: 150">
+      <input type="number" id="speedCurrent" placeholder="Ex: 100">
       <label>🛡️ Defesa Atual:</label>
-      <input type="number" id="defenseCurrent" placeholder="Ex: 1500">
+      <input type="number" id="defenseCurrent" placeholder="Ex: 500">
       <label>🛡️ Resistência Atual:</label>
       <input type="number" id="resistanceCurrent" placeholder="Ex: 150">
       <label>🎯 Eficácia Atual:</label>
-      <input type="number" id="effectivenessCurrent" placeholder="Ex: 150">
+      <input type="number" id="effectivenessCurrent" placeholder="Ex: 15.0">
     </div>
 
     <div class="fields-column">
       <label>⚔️ Ataque Desejado:</label>
-      <input type="number" id="attackDesired" placeholder="Ex: 4000">
+      <input type="number" id="attackDesired" placeholder="Ex: 500">
       <label>❤️ HP Desejado:</label>
-      <input type="number" id="healthDesired" placeholder="Ex: 30000">
+      <input type="number" id="healthDesired" placeholder="Ex: 9000">
       <label>⚡ Velocidade Desejada:</label>
-      <input type="number" id="speedDesired" placeholder="Ex: 300">
+      <input type="number" id="speedDesired" placeholder="Ex: 110">
       <label>🛡️ Defesa Desejada:</label>
-      <input type="number" id="defenseDesired" placeholder="Ex: 4000">
+      <input type="number" id="defenseDesired" placeholder="Ex: 600">
       <label>🛡️ Resistência Desejada:</label>
-      <input type="number" id="resistanceDesired" placeholder="Ex: 250">
+      <input type="number" id="resistanceDesired" placeholder="Ex: 180">
       <label>🎯 Eficácia Desejada:</label>
-      <input type="number" id="effectivenessDesired" placeholder="Ex: 250">
+      <input type="number" id="effectivenessDesired" placeholder="Ex: 20.0">
     </div>
   </div>
 
@@ -131,46 +130,15 @@
   <div class="results" id="resultados"></div>
 
   <script>
-    let herois = [];
-
-    // Função para carregar os heróis do arquivo heroes.json
-    async function carregarHerois() {
-      const response = await fetch('heroes.json');
-      herois = await response.json();
-
-      const select = document.getElementById('heroSelect');
-      herois.forEach(heroi => {
-        const option = document.createElement('option');
-        option.value = heroi.nome;
-        option.textContent = heroi.nome;
-        select.appendChild(option);
-      });
-    }
-
-    // Função para atualizar os status base do herói selecionado
-    function atualizarStatusBase() {
-      const nomeHeroi = document.getElementById('heroSelect').value;
-      const heroi = herois.find(h => h.nome === nomeHeroi);
-
-      if (heroi) {
-        document.getElementById('attackBase').textContent = heroi.attackBase;
-        document.getElementById('healthBase').textContent = heroi.healthBase;
-        document.getElementById('speedBase').textContent = heroi.speedBase;
-        document.getElementById('defenseBase').textContent = heroi.defenseBase;
-        document.getElementById('resistanceBase').textContent = heroi.resistanceBase;
-        document.getElementById('effectivenessBase').textContent = heroi.effectivenessBase;
-      } else {
-        document.getElementById('attackBase').textContent = '';
-        document.getElementById('healthBase').textContent = '';
-        document.getElementById('speedBase').textContent = '';
-        document.getElementById('defenseBase').textContent = '';
-        document.getElementById('resistanceBase').textContent = '';
-        document.getElementById('effectivenessBase').textContent = '';
-      }
-    }
-
     // Função para calcular a diferença entre o status desejado e o status atual e calcular a porcentagem em relação ao status base
     function calcular() {
+      const attackBase = parseInt(document.getElementById('attackBase').value) || null;
+      const healthBase = parseInt(document.getElementById('healthBase').value) || null;
+      const speedBase = parseInt(document.getElementById('speedBase').value) || null;
+      const defenseBase = parseInt(document.getElementById('defenseBase').value) || null;
+      const resistanceBase = parseInt(document.getElementById('resistanceBase').value) || null;
+      const effectivenessBase = parseFloat(document.getElementById('effectivenessBase').value) || null;
+
       const attackCurrent = parseInt(document.getElementById('attackCurrent').value) || null;
       const healthCurrent = parseInt(document.getElementById('healthCurrent').value) || null;
       const speedCurrent = parseInt(document.getElementById('speedCurrent').value) || null;
@@ -184,21 +152,6 @@
       const defenseDesired = parseInt(document.getElementById('defenseDesired').value) || null;
       const resistanceDesired = parseInt(document.getElementById('resistanceDesired').value) || null;
       const effectivenessDesired = parseFloat(document.getElementById('effectivenessDesired').value) || null;
-
-      const nomeHeroi = document.getElementById('heroSelect').value;
-      const heroi = herois.find(h => h.nome === nomeHeroi);
-
-      if (!heroi) {
-        alert('Por favor, selecione um herói!');
-        return;
-      }
-
-      const attackBase = heroi.attackBase;
-      const healthBase = heroi.healthBase;
-      const speedBase = heroi.speedBase;
-      const defenseBase = heroi.defenseBase;
-      const resistanceBase = heroi.resistanceBase;
-      const effectivenessBase = heroi.effectivenessBase;
 
       // Calcular a diferença entre o status desejado e o status atual
       const attackResult = attackDesired !== null ? attackDesired - (attackCurrent || 0) : "-";
@@ -220,13 +173,11 @@
         <p>❤️ HP: ${healthResult} | ${healthPercent !== "-" ? healthPercent.toFixed(2) + "%" : "-"}</p>
         <p>🛡️ Defesa: ${defenseResult} | ${defensePercent !== "-" ? defensePercent.toFixed(2) + "%" : "-"}</p>
         <p>⚡ Velocidade: ${speedResult}</p>
-        <p>🛡️ Resistência: ${resistanceResult}%</p>
-        <p>🎯 Eficácia: ${effectivenessResult}%</p>
+        <p>🛡️ Resistência: ${resistanceResult}</p>
+        <p>🎯 Eficácia: ${effectivenessResult}</p>
       `;
     }
-
-    // Carregar os heróis ao carregar a página
-    window.onload = carregarHerois;
   </script>
+
 </body>
 </html>
