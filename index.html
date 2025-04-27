@@ -2,164 +2,164 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <title>Calculadora de Status - Epic Seven</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Epic Seven - Calculadora de Status</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+      color: #f0f0f0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+      font-size: 2.5rem;
+      text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+      color: #00d2ff;
+    }
+
+    .calculator {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      border-radius: 16px;
+      padding: 30px;
+      width: 100%;
+      max-width: 800px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    label {
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      border-radius: 8px;
+      border: none;
+      outline: none;
+      font-size: 1rem;
+      margin-bottom: 10px;
+    }
+
+    button {
+      background: #00d2ff;
+      border: none;
+      padding: 12px;
+      border-radius: 10px;
+      font-size: 1.2rem;
+      font-weight: bold;
+      cursor: pointer;
+      color: #fff;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background: #008cba;
+    }
+
+    .results {
+      margin-top: 20px;
+      background: rgba(0,0,0,0.3);
+      border-radius: 12px;
+      padding: 20px;
+    }
+  </style>
 </head>
-<body class="bg-gray-100 min-h-screen flex flex-col items-center p-6">
+<body>
 
-  <h1 class="text-3xl font-bold mb-6">Calculadora de Status - Epic Seven</h1>
+  <h1>Epic Seven - Calculadora de Status</h1>
 
-  <!-- Metas -->
-  <div class="bg-white p-6 rounded-xl shadow-md w-full max-w-3xl mb-8">
-    <h2 class="text-xl font-semibold mb-4">Metas de Status</h2>
-    <div class="grid grid-cols-2 gap-4">
-      <div>
-        <label class="block mb-1">HP:</label>
-        <input id="meta-hp" type="number" class="w-full p-2 border rounded" placeholder="Ex: 20000">
-      </div>
-      <div>
-        <label class="block mb-1">DEF:</label>
-        <input id="meta-def" type="number" class="w-full p-2 border rounded" placeholder="Ex: 1500">
-      </div>
-      <div>
-        <label class="block mb-1">Speed:</label>
-        <input id="meta-speed" type="number" class="w-full p-2 border rounded" placeholder="Ex: 220">
-      </div>
-      <div>
-        <label class="block mb-1">Resistência (RES%):</label>
-        <input id="meta-res" type="number" class="w-full p-2 border rounded" placeholder="Ex: 100">
-      </div>
-      <div>
-        <label class="block mb-1">Eficácia (EF%):</label>
-        <input id="meta-ef" type="number" class="w-full p-2 border rounded" placeholder="Ex: 0">
-      </div>
+  <div class="calculator">
+    <div>
+      <label>HP Atual:</label>
+      <input type="number" id="hpAtual" placeholder="Ex: 10000">
     </div>
-  </div>
-
-  <!-- Itens -->
-  <div class="bg-white p-6 rounded-xl shadow-md w-full max-w-6xl mb-8">
-    <h2 class="text-xl font-semibold mb-4">Status dos Itens</h2>
-    <div class="overflow-x-auto">
-      <table class="w-full text-sm text-center">
-        <thead>
-          <tr class="bg-gray-200">
-            <th class="p-2">Slot</th>
-            <th class="p-2">Equipado?</th>
-            <th class="p-2">HP%</th>
-            <th class="p-2">DEF%</th>
-            <th class="p-2">Speed</th>
-            <th class="p-2">RES%</th>
-            <th class="p-2">EF%</th>
-          </tr>
-        </thead>
-        <tbody id="items-table">
-          <!-- Linhas vão ser preenchidas via JS -->
-        </tbody>
-      </table>
+    <div>
+      <label>Defesa Atual:</label>
+      <input type="number" id="defAtual" placeholder="Ex: 1200">
     </div>
-  </div>
+    <div>
+      <label>Velocidade Atual:</label>
+      <input type="number" id="speedAtual" placeholder="Ex: 200">
+    </div>
+    <div>
+      <label>Resistência Atual:</label>
+      <input type="number" id="resAtual" placeholder="Ex: 100">
+    </div>
+    <div>
+      <label>Eficácia Atual:</label>
+      <input type="number" id="efiAtual" placeholder="Ex: 50">
+    </div>
 
-  <!-- Botão -->
-  <button onclick="calcular()" class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-6 rounded-xl shadow-lg mb-8">
-    Calcular
-  </button>
+    <hr style="border: 1px solid #00d2ff;">
 
-  <!-- Resultado -->
-  <div id="resultado" class="bg-white p-6 rounded-xl shadow-md w-full max-w-3xl hidden">
-    <h2 class="text-xl font-semibold mb-4">Resultado</h2>
-    <div id="status-atual" class="mb-4"></div>
-    <div id="status-faltando"></div>
+    <div>
+      <label>HP Desejado:</label>
+      <input type="number" id="hpDesejado" placeholder="Ex: 15000">
+    </div>
+    <div>
+      <label>Defesa Desejada:</label>
+      <input type="number" id="defDesejado" placeholder="Ex: 1600">
+    </div>
+    <div>
+      <label>Velocidade Desejada:</label>
+      <input type="number" id="speedDesejado" placeholder="Ex: 250">
+    </div>
+    <div>
+      <label>Resistência Desejada:</label>
+      <input type="number" id="resDesejado" placeholder="Ex: 150">
+    </div>
+    <div>
+      <label>Eficácia Desejada:</label>
+      <input type="number" id="efiDesejado" placeholder="Ex: 80">
+    </div>
+
+    <button onclick="calcular()">Calcular Diferença</button>
+
+    <div class="results" id="resultados"></div>
   </div>
 
   <script>
-    const slots = ["Arma", "Elmo", "Armadura", "Colar", "Anel", "Bota"];
-    const table = document.getElementById('items-table');
-
-    slots.forEach((slot, index) => {
-      const row = document.createElement('tr');
-      row.innerHTML = `
-        <td class="p-2 font-semibold">${slot}</td>
-        <td class="p-2">
-          <input type="checkbox" id="equipado-${index}" class="h-5 w-5">
-        </td>
-        <td class="p-2">
-          <input type="number" id="hp-${index}" class="w-20 p-1 border rounded">
-        </td>
-        <td class="p-2">
-          <input type="number" id="def-${index}" class="w-20 p-1 border rounded">
-        </td>
-        <td class="p-2">
-          <input type="number" id="speed-${index}" class="w-20 p-1 border rounded">
-        </td>
-        <td class="p-2">
-          <input type="number" id="res-${index}" class="w-20 p-1 border rounded">
-        </td>
-        <td class="p-2">
-          <input type="number" id="ef-${index}" class="w-20 p-1 border rounded">
-        </td>
-      `;
-      table.appendChild(row);
-    });
-
     function calcular() {
-      const meta = {
-        hp: Number(document.getElementById('meta-hp').value) || 0,
-        def: Number(document.getElementById('meta-def').value) || 0,
-        speed: Number(document.getElementById('meta-speed').value) || 0,
-        res: Number(document.getElementById('meta-res').value) || 0,
-        ef: Number(document.getElementById('meta-ef').value) || 0,
-      };
+      const hpAtual = parseInt(document.getElementById('hpAtual').value) || 0;
+      const defAtual = parseInt(document.getElementById('defAtual').value) || 0;
+      const speedAtual = parseInt(document.getElementById('speedAtual').value) || 0;
+      const resAtual = parseInt(document.getElementById('resAtual').value) || 0;
+      const efiAtual = parseInt(document.getElementById('efiAtual').value) || 0;
 
-      const atual = { hp: 0, def: 0, speed: 0, res: 0, ef: 0 };
-      let slotsVazios = 0;
+      const hpDesejado = parseInt(document.getElementById('hpDesejado').value) || 0;
+      const defDesejado = parseInt(document.getElementById('defDesejado').value) || 0;
+      const speedDesejado = parseInt(document.getElementById('speedDesejado').value) || 0;
+      const resDesejado = parseInt(document.getElementById('resDesejado').value) || 0;
+      const efiDesejado = parseInt(document.getElementById('efiDesejado').value) || 0;
 
-      slots.forEach((slot, index) => {
-        const equipado = document.getElementById(`equipado-${index}`).checked;
-        if (equipado) {
-          atual.hp += Number(document.getElementById(`hp-${index}`).value) || 0;
-          atual.def += Number(document.getElementById(`def-${index}`).value) || 0;
-          atual.speed += Number(document.getElementById(`speed-${index}`).value) || 0;
-          atual.res += Number(document.getElementById(`res-${index}`).value) || 0;
-          atual.ef += Number(document.getElementById(`ef-${index}`).value) || 0;
-        } else {
-          slotsVazios++;
-        }
-      });
+      const faltaHP = Math.max(0, hpDesejado - hpAtual);
+      const faltaDEF = Math.max(0, defDesejado - defAtual);
+      const faltaSPD = Math.max(0, speedDesejado - speedAtual);
+      const faltaRES = Math.max(0, resDesejado - resAtual);
+      const faltaEFI = Math.max(0, efiDesejado - efiAtual);
 
-      const faltando = {
-        hp: Math.max(meta.hp - atual.hp, 0),
-        def: Math.max(meta.def - atual.def, 0),
-        speed: Math.max(meta.speed - atual.speed, 0),
-        res: Math.max(meta.res - atual.res, 0),
-        ef: Math.max(meta.ef - atual.ef, 0),
-      };
-
-      let distribuicao = "";
-      if (slotsVazios > 0) {
-        distribuicao = `
-          <p class="mt-4 font-semibold">Distribuição sugerida por slot vazio:</p>
-          <ul class="list-disc list-inside">
-            <li>HP%: ${(faltando.hp / slotsVazios).toFixed(1)} por slot</li>
-            <li>DEF%: ${(faltando.def / slotsVazios).toFixed(1)} por slot</li>
-            <li>Speed: ${(faltando.speed / slotsVazios).toFixed(1)} por slot</li>
-            <li>RES%: ${(faltando.res / slotsVazios).toFixed(1)} por slot</li>
-            <li>EF%: ${(faltando.ef / slotsVazios).toFixed(1)} por slot</li>
-          </ul>
-        `;
-      }
-
-      document.getElementById('status-atual').innerHTML = `
-        <p><strong>Status Atual:</strong></p>
-        <p>HP%: ${atual.hp} | DEF%: ${atual.def} | Speed: ${atual.speed} | RES%: ${atual.res} | EF%: ${atual.ef}</p>
+      document.getElementById('resultados').innerHTML = `
+        <h3>Resultados:</h3>
+        <ul>
+          <li><strong>HP:</strong> Falta ${faltaHP}</li>
+          <li><strong>Defesa:</strong> Falta ${faltaDEF}</li>
+          <li><strong>Velocidade:</strong> Falta ${faltaSPD}</li>
+          <li><strong>Resistência:</strong> Falta ${faltaRES}</li>
+          <li><strong>Eficácia:</strong> Falta ${faltaEFI}</li>
+        </ul>
       `;
-
-      document.getElementById('status-faltando').innerHTML = `
-        <p class="mt-4"><strong>Status Faltando para Meta:</strong></p>
-        <p>HP%: ${faltando.hp} | DEF%: ${faltando.def} | Speed: ${faltando.speed} | RES%: ${faltando.res} | EF%: ${faltando.ef}</p>
-        ${distribuicao}
-      `;
-
-      document.getElementById('resultado').classList.remove('hidden');
     }
   </script>
 
