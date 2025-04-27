@@ -8,89 +8,124 @@
     body {
       margin: 0;
       font-family: 'Poppins', sans-serif;
-      background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
-      color: #f0f0f0;
+      background: linear-gradient(to right, #1e3c72, #2a5298);
+      color: #fff;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
+      justify-content: center;
       padding: 20px;
     }
 
     h1 {
       margin-bottom: 20px;
-      font-size: 2.5rem;
-      text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
-      color: #00d2ff;
+      font-size: 3rem;
+      text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.6);
+      color: #f1c40f;
+      text-align: center;
     }
 
     .calculator {
-      background: rgba(255, 255, 255, 0.05);
+      background: rgba(255, 255, 255, 0.1);
       backdrop-filter: blur(10px);
-      border-radius: 16px;
-      padding: 30px;
+      border-radius: 20px;
+      padding: 40px;
       width: 100%;
-      max-width: 800px;
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+      max-width: 900px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
       display: flex;
       flex-direction: column;
-      gap: 20px;
+      gap: 30px;
+    }
+
+    .fields-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 30px;
+      margin-bottom: 20px;
+    }
+
+    .fields-column {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
     }
 
     label {
       font-weight: bold;
       margin-bottom: 5px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
+      font-size: 1.1rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #f1c40f;
     }
 
     input {
       width: 100%;
-      padding: 10px;
-      border-radius: 8px;
-      border: none;
+      padding: 12px;
+      border-radius: 12px;
+      border: 2px solid #f1c40f;
+      background: rgba(255, 255, 255, 0.15);
+      color: #fff;
+      font-size: 1.1rem;
+      margin-bottom: 15px;
+      transition: border-color 0.3s ease;
+    }
+
+    input:focus {
+      border-color: #f39c12;
       outline: none;
-      font-size: 1rem;
-      margin-bottom: 10px;
     }
 
     button {
-      background: #00d2ff;
+      background: #f39c12;
       border: none;
-      padding: 12px;
-      border-radius: 10px;
+      padding: 15px;
+      border-radius: 12px;
       font-size: 1.2rem;
       font-weight: bold;
       cursor: pointer;
       color: #fff;
-      transition: background 0.3s;
+      transition: background 0.3s ease, transform 0.2s ease;
     }
 
     button:hover {
-      background: #008cba;
+      background: #e67e22;
+      transform: scale(1.05);
     }
 
     .results {
-      margin-top: 20px;
-      background: rgba(0,0,0,0.3);
+      margin-top: 30px;
+      background: rgba(0, 0, 0, 0.2);
       border-radius: 12px;
-      padding: 20px;
+      padding: 25px;
+      box-shadow: 0 2px 15px rgba(0, 0, 0, 0.3);
     }
 
     ul {
       list-style: none;
       padding: 0;
+      font-size: 1.2rem;
+      line-height: 1.6;
     }
 
     li {
       padding: 8px 0;
-      font-size: 1.1rem;
+      font-weight: 500;
     }
 
     hr {
-      border: 1px solid #00d2ff;
+      border: 1px solid #f39c12;
     }
+
+    .status-title {
+      font-size: 1.5rem;
+      color: #f39c12;
+      text-align: center;
+      margin-bottom: 15px;
+    }
+
   </style>
 </head>
 <body>
@@ -98,48 +133,32 @@
   <h1>Epic Seven - Calculadora de Status</h1>
 
   <div class="calculator">
-    <div>
-      <label>❤️ HP Atual:</label>
-      <input type="number" id="hpAtual" placeholder="Ex: 10000">
-    </div>
-    <div>
-      <label>🛡️ Defesa Atual:</label>
-      <input type="number" id="defAtual" placeholder="Ex: 1200">
-    </div>
-    <div>
-      <label>⚡ Velocidade Atual:</label>
-      <input type="number" id="speedAtual" placeholder="Ex: 200">
-    </div>
-    <div>
-      <label>🌀 Resistência Atual:</label>
-      <input type="number" id="resAtual" placeholder="Ex: 100">
-    </div>
-    <div>
-      <label>🎯 Eficácia Atual:</label>
-      <input type="number" id="efiAtual" placeholder="Ex: 50">
-    </div>
+    <div class="fields-row">
+      <div class="fields-column">
+        <label>❤️ HP Atual:</label>
+        <input type="number" id="hpAtual" placeholder="Ex: 10000">
+        <label>🛡️ Defesa Atual:</label>
+        <input type="number" id="defAtual" placeholder="Ex: 1200">
+        <label>⚡ Velocidade Atual:</label>
+        <input type="number" id="speedAtual" placeholder="Ex: 200">
+        <label>🌀 Resistência Atual:</label>
+        <input type="number" id="resAtual" placeholder="Ex: 100">
+        <label>🎯 Eficácia Atual:</label>
+        <input type="number" id="efiAtual" placeholder="Ex: 50">
+      </div>
 
-    <hr>
-
-    <div>
-      <label>❤️ HP Desejado:</label>
-      <input type="number" id="hpDesejado" placeholder="Ex: 15000">
-    </div>
-    <div>
-      <label>🛡️ Defesa Desejada:</label>
-      <input type="number" id="defDesejado" placeholder="Ex: 1600">
-    </div>
-    <div>
-      <label>⚡ Velocidade Desejada:</label>
-      <input type="number" id="speedDesejado" placeholder="Ex: 250">
-    </div>
-    <div>
-      <label>🌀 Resistência Desejada:</label>
-      <input type="number" id="resDesejado" placeholder="Ex: 150">
-    </div>
-    <div>
-      <label>🎯 Eficácia Desejada:</label>
-      <input type="number" id="efiDesejado" placeholder="Ex: 80">
+      <div class="fields-column">
+        <label>❤️ HP Desejado:</label>
+        <input type="number" id="hpDesejado" placeholder="Ex: 15000">
+        <label>🛡️ Defesa Desejada:</label>
+        <input type="number" id="defDesejado" placeholder="Ex: 1600">
+        <label>⚡ Velocidade Desejada:</label>
+        <input type="number" id="speedDesejado" placeholder="Ex: 250">
+        <label>🌀 Resistência Desejada:</label>
+        <input type="number" id="resDesejado" placeholder="Ex: 150">
+        <label>🎯 Eficácia Desejada:</label>
+        <input type="number" id="efiDesejado" placeholder="Ex: 80">
+      </div>
     </div>
 
     <button onclick="calcular()">Calcular Diferença</button>
@@ -168,7 +187,7 @@
       const faltaEFI = Math.max(0, efiDesejado - efiAtual);
 
       document.getElementById('resultados').innerHTML = `
-        <h3>Resultados:</h3>
+        <h3 class="status-title">Resultados:</h3>
         <ul>
           <li>❤️ <strong>HP:</strong> Falta ${faltaHP}</li>
           <li>🛡️ <strong>Defesa:</strong> Falta ${faltaDEF}</li>
