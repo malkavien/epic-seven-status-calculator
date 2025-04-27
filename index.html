@@ -77,29 +77,29 @@
     </div>
 
     <div class="fields-column">
+      <label>⚔️ Ataque Base:</label>
+      <input type="number" id="attackBase" placeholder="Ex: 355" readonly>
       <label>❤️ HP Base:</label>
-      <input type="number" id="hpBase" placeholder="Ex: 8000" readonly>
-      <label>🛡️ Defesa Base:</label>
-      <input type="number" id="defBase" placeholder="Ex: 1000" readonly>
+      <input type="number" id="healthBase" placeholder="Ex: 3508" readonly>
       <label>⚡ Velocidade Base:</label>
-      <input type="number" id="speedBase" placeholder="Ex: 150" readonly>
-      <label>🌀 Resistência Base:</label>
-      <input type="number" id="resBase" placeholder="Ex: 90" readonly>
+      <input type="number" id="speedBase" placeholder="Ex: 91" readonly>
+      <label>🛡️ Defesa Base:</label>
+      <input type="number" id="defenseBase" placeholder="Ex: 429" readonly>
       <label>🎯 Eficácia Base:</label>
-      <input type="number" id="efiBase" placeholder="Ex: 30" readonly>
+      <input type="number" id="effectivenessBase" placeholder="Ex: 0.0" readonly>
     </div>
 
     <div class="fields-column">
-      <label>❤️ HP Atual:</label>
-      <input type="number" id="hpAtual" placeholder="Ex: 8000">
-      <label>🛡️ Defesa Atual:</label>
-      <input type="number" id="defAtual" placeholder="Ex: 1000">
-      <label>⚡ Velocidade Atual:</label>
-      <input type="number" id="speedAtual" placeholder="Ex: 150">
-      <label>🌀 Resistência Atual:</label>
-      <input type="number" id="resAtual" placeholder="Ex: 90">
-      <label>🎯 Eficácia Atual:</label>
-      <input type="number" id="efiAtual" placeholder="Ex: 30">
+      <label>⚔️ Ataque Desejado:</label>
+      <input type="number" id="attackDesired" placeholder="Ex: 400">
+      <label>❤️ HP Desejado:</label>
+      <input type="number" id="healthDesired" placeholder="Ex: 8000">
+      <label>⚡ Velocidade Desejada:</label>
+      <input type="number" id="speedDesired" placeholder="Ex: 100">
+      <label>🛡️ Defesa Desejada:</label>
+      <input type="number" id="defenseDesired" placeholder="Ex: 500">
+      <label>🎯 Eficácia Desejada:</label>
+      <input type="number" id="effectivenessDesired" placeholder="Ex: 15.0">
     </div>
   </div>
 
@@ -108,28 +108,13 @@
   <div class="results" id="resultados"></div>
 
   <script>
-    // Lista de heróis com status base
-    const herois = [
-      {
-        "nome": "Armin",
-        "hpBase": 8000,
-        "defBase": 1000,
-        "speedBase": 150,
-        "resBase": 90,
-        "efiBase": 30
-      },
-      {
-        "nome": "Luna",
-        "hpBase": 7200,
-        "defBase": 950,
-        "speedBase": 160,
-        "resBase": 85,
-        "efiBase": 40
-      }
-    ];
+    let herois = [];
 
-    // Função para carregar os heróis no select
-    function carregarHerois() {
+    // Função para carregar os heróis do arquivo heroes.json
+    async function carregarHerois() {
+      const response = await fetch('heroes.json');
+      herois = await response.json();
+
       const select = document.getElementById('heroSelect');
       herois.forEach(heroi => {
         const option = document.createElement('option');
@@ -145,49 +130,56 @@
       const heroi = herois.find(h => h.nome === nomeHeroi);
 
       if (heroi) {
-        document.getElementById('hpBase').value = heroi.hpBase;
-        document.getElementById('defBase').value = heroi.defBase;
+        document.getElementById('attackBase').value = heroi.attackBase;
+        document.getElementById('healthBase').value = heroi.healthBase;
         document.getElementById('speedBase').value = heroi.speedBase;
-        document.getElementById('resBase').value = heroi.resBase;
-        document.getElementById('efiBase').value = heroi.efiBase;
+        document.getElementById('defenseBase').value = heroi.defenseBase;
+        document.getElementById('effectivenessBase').value = heroi.effectivenessBase;
       } else {
-        document.getElementById('hpBase').value = '';
-        document.getElementById('defBase').value = '';
+        document.getElementById('attackBase').value = '';
+        document.getElementById('healthBase').value = '';
         document.getElementById('speedBase').value = '';
-        document.getElementById('resBase').value = '';
-        document.getElementById('efiBase').value = '';
+        document.getElementById('defenseBase').value = '';
+        document.getElementById('effectivenessBase').value = '';
       }
     }
 
-    // Função para calcular a diferença entre status atual e base
+    // Função para calcular a diferença entre o status desejado e atual e calcular a porcentagem em relação ao status base
     function calcular() {
-      const hpAtual = parseInt(document.getElementById('hpAtual').value);
-      const defAtual = parseInt(document.getElementById('defAtual').value);
-      const speedAtual = parseInt(document.getElementById('speedAtual').value);
-      const resAtual = parseInt(document.getElementById('resAtual').value);
-      const efiAtual = parseInt(document.getElementById('efiAtual').value);
+      const attackDesired = parseInt(document.getElementById('attackDesired').value);
+      const healthDesired = parseInt(document.getElementById('healthDesired').value);
+      const speedDesired = parseInt(document.getElementById('speedDesired').value);
+      const defenseDesired = parseInt(document.getElementById('defenseDesired').value);
+      const effectivenessDesired = parseFloat(document.getElementById('effectivenessDesired').value);
 
-      const hpBase = parseInt(document.getElementById('hpBase').value);
-      const defBase = parseInt(document.getElementById('defBase').value);
+      const attackBase = parseInt(document.getElementById('attackBase').value);
+      const healthBase = parseInt(document.getElementById('healthBase').value);
       const speedBase = parseInt(document.getElementById('speedBase').value);
-      const resBase = parseInt(document.getElementById('resBase').value);
-      const efiBase = parseInt(document.getElementById('efiBase').value);
+      const defenseBase = parseInt(document.getElementById('defenseBase').value);
+      const effectivenessBase = parseFloat(document.getElementById('effectivenessBase').value);
 
-      // Calcular a porcentagem de aumento em relação ao status base
-      const hpPercent = ((hpAtual - hpBase) / hpBase) * 100;
-      const defPercent = ((defAtual - defBase) / defBase) * 100;
-      const speedPercent = ((speedAtual - speedBase) / speedBase) * 100;
-      const resPercent = ((resAtual - resBase) / resBase) * 100;
-      const efiPercent = ((efiAtual - efiBase) / efiBase) * 100;
+      // Calcular a diferença entre o status desejado e o status atual
+      const attackResult = attackDesired - attackBase;
+      const healthResult = healthDesired - healthBase;
+      const speedResult = speedDesired - speedBase;
+      const defenseResult = defenseDesired - defenseBase;
+      const effectivenessResult = effectivenessDesired - effectivenessBase;
+
+      // Calcular a porcentagem em relação ao status base
+      const attackPercent = (attackResult / attackBase) * 100;
+      const healthPercent = (healthResult / healthBase) * 100;
+      const speedPercent = (speedResult / speedBase) * 100;
+      const defensePercent = (defenseResult / defenseBase) * 100;
+      const effectivenessPercent = (effectivenessResult / effectivenessBase) * 100;
 
       // Exibir os resultados
       document.getElementById('resultados').innerHTML = `
         <h3>Resultados:</h3>
-        <p>❤️ HP: ${hpPercent.toFixed(2)}%</p>
-        <p>🛡️ Defesa: ${defPercent.toFixed(2)}%</p>
-        <p>⚡ Velocidade: ${speedPercent.toFixed(2)}%</p>
-        <p>🌀 Resistência: ${resPercent.toFixed(2)}%</p>
-        <p>🎯 Eficácia: ${efiPercent.toFixed(2)}%</p>
+        <p>⚔️ Ataque: ${attackResult} | ${attackPercent.toFixed(2)}%</p>
+        <p>❤️ HP: ${healthResult} | ${healthPercent.toFixed(2)}%</p>
+        <p>⚡ Velocidade: ${speedResult} | ${speedPercent.toFixed(2)}%</p>
+        <p>🛡️ Defesa: ${defenseResult} | ${defensePercent.toFixed(2)}%</p>
+        <p>🎯 Eficácia: ${effectivenessResult} | ${effectivenessPercent.toFixed(2)}%</p>
       `;
     }
 

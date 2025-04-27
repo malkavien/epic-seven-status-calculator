@@ -1,18 +1,27 @@
 [
     {
       "nome": "Armin",
-      "hpBase": 8000,
-      "defBase": 1000,
-      "speedBase": 150,
-      "resBase": 90,
-      "efiBase": 30
+      "attackBase": 355,
+      "healthBase": 3508,
+      "speedBase": 91,
+      "defenseBase": 429,
+      "critHitChanceBase": 15.0,
+      "critHitDamageBase": 150.0,
+      "dualAttackChanceBase": 5.0,
+      "effectivenessBase": 0.0,
+      "effectResistanceBase": 0.0
     },
     {
       "nome": "Luna",
-      "hpBase": 7200,
-      "defBase": 950,
-      "speedBase": 160,
-      "resBase": 85,
-      "efiBase": 40
+      "attackBase": 380,
+      "healthBase": 3300,
+      "speedBase": 97,
+      "defenseBase": 420,
+      "critHitChanceBase": 18.0,
+      "critHitDamageBase": 160.0,
+      "dualAttackChanceBase": 6.0,
+      "effectivenessBase": 10.0,
+      "effectResistanceBase": 5.0
     }
   ]
+  
