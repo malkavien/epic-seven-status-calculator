@@ -5,7 +5,63 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Epic Seven - Calculadora de Status</title>
   <style>
-    /* Estilo igual ao anterior, não modificado */
+    /* Estilos para a página */
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background-color: #f4f4f4;
+      color: #333;
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    .calculator {
+      display: flex;
+      justify-content: space-around;
+      align-items: flex-start;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .fields-column {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      max-width: 300px;
+    }
+
+    label {
+      font-weight: bold;
+    }
+
+    input, select {
+      padding: 5px;
+      margin: 5px 0;
+      font-size: 1rem;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 1rem;
+      cursor: pointer;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    .results {
+      margin-top: 20px;
+      padding: 10px;
+      background-color: #e9e9e9;
+      border-radius: 5px;
+    }
   </style>
 </head>
 <body>
@@ -13,67 +69,66 @@
   <h1>Epic Seven - Calculadora de Status</h1>
 
   <div class="calculator">
-    <div class="fields-row">
-      <div class="fields-column">
-        <label for="heroSelect">Escolha o Herói:</label>
-        <select id="heroSelect" onchange="atualizarStatusBase()">
-          <option value="">Selecione um Herói</option>
-        </select>
-      </div>
-      
-      <!-- Campos de status do herói e desejados -->
-      <div class="fields-column">
-        <label>❤️ HP Base:</label>
-        <input type="number" id="hpBase" placeholder="Ex: 8000" readonly>
-        <label>🛡️ Defesa Base:</label>
-        <input type="number" id="defBase" placeholder="Ex: 1000" readonly>
-        <label>⚡ Velocidade Base:</label>
-        <input type="number" id="speedBase" placeholder="Ex: 150" readonly>
-        <label>🌀 Resistência Base:</label>
-        <input type="number" id="resBase" placeholder="Ex: 90" readonly>
-        <label>🎯 Eficácia Base:</label>
-        <input type="number" id="efiBase" placeholder="Ex: 30" readonly>
-      </div>
+    <div class="fields-column">
+      <label for="heroSelect">Escolha o Herói:</label>
+      <select id="heroSelect" onchange="atualizarStatusBase()">
+        <option value="">Selecione um Herói</option>
+      </select>
     </div>
 
-    <div class="fields-row">
-      <!-- Campos de status atual e desejado -->
+    <div class="fields-column">
+      <label>❤️ HP Base:</label>
+      <input type="number" id="hpBase" placeholder="Ex: 8000" readonly>
+      <label>🛡️ Defesa Base:</label>
+      <input type="number" id="defBase" placeholder="Ex: 1000" readonly>
+      <label>⚡ Velocidade Base:</label>
+      <input type="number" id="speedBase" placeholder="Ex: 150" readonly>
+      <label>🌀 Resistência Base:</label>
+      <input type="number" id="resBase" placeholder="Ex: 90" readonly>
+      <label>🎯 Eficácia Base:</label>
+      <input type="number" id="efiBase" placeholder="Ex: 30" readonly>
     </div>
 
-    <button onclick="calcular()">Calcular Diferença</button>
-
-    <div class="results" id="resultados"></div>
+    <div class="fields-column">
+      <label>❤️ HP Atual:</label>
+      <input type="number" id="hpAtual" placeholder="Ex: 8000">
+      <label>🛡️ Defesa Atual:</label>
+      <input type="number" id="defAtual" placeholder="Ex: 1000">
+      <label>⚡ Velocidade Atual:</label>
+      <input type="number" id="speedAtual" placeholder="Ex: 150">
+      <label>🌀 Resistência Atual:</label>
+      <input type="number" id="resAtual" placeholder="Ex: 90">
+      <label>🎯 Eficácia Atual:</label>
+      <input type="number" id="efiAtual" placeholder="Ex: 30">
+    </div>
   </div>
 
+  <button onclick="calcular()">Calcular Diferença</button>
+
+  <div class="results" id="resultados"></div>
+
   <script>
+    // Lista de heróis com status base
     const herois = [
       {
-        nome: "Armin",
-        hpBase: 8000,
-        defBase: 1000,
-        speedBase: 150,
-        resBase: 90,
-        efiBase: 30
+        "nome": "Armin",
+        "hpBase": 8000,
+        "defBase": 1000,
+        "speedBase": 150,
+        "resBase": 90,
+        "efiBase": 30
       },
       {
-        nome: "Luna",
-        hpBase: 7200,
-        defBase: 950,
-        speedBase: 160,
-        resBase: 85,
-        efiBase: 40
-      },
-      {
-        nome: "Sez",
-        hpBase: 6000,
-        defBase: 700,
-        speedBase: 180,
-        resBase: 80,
-        efiBase: 50
+        "nome": "Luna",
+        "hpBase": 7200,
+        "defBase": 950,
+        "speedBase": 160,
+        "resBase": 85,
+        "efiBase": 40
       }
     ];
 
-    // Preencher o select com os heróis
+    // Função para carregar os heróis no select
     function carregarHerois() {
       const select = document.getElementById('heroSelect');
       herois.forEach(heroi => {
@@ -84,7 +139,7 @@
       });
     }
 
-    // Atualizar os status base quando um herói for escolhido
+    // Função para atualizar os status base do herói selecionado
     function atualizarStatusBase() {
       const nomeHeroi = document.getElementById('heroSelect').value;
       const heroi = herois.find(h => h.nome === nomeHeroi);
@@ -104,9 +159,36 @@
       }
     }
 
-    // Função de calcular (já mostrada anteriormente)
+    // Função para calcular a diferença entre status atual e base
     function calcular() {
-      // O cálculo continua o mesmo
+      const hpAtual = parseInt(document.getElementById('hpAtual').value);
+      const defAtual = parseInt(document.getElementById('defAtual').value);
+      const speedAtual = parseInt(document.getElementById('speedAtual').value);
+      const resAtual = parseInt(document.getElementById('resAtual').value);
+      const efiAtual = parseInt(document.getElementById('efiAtual').value);
+
+      const hpBase = parseInt(document.getElementById('hpBase').value);
+      const defBase = parseInt(document.getElementById('defBase').value);
+      const speedBase = parseInt(document.getElementById('speedBase').value);
+      const resBase = parseInt(document.getElementById('resBase').value);
+      const efiBase = parseInt(document.getElementById('efiBase').value);
+
+      // Calcular a porcentagem de aumento em relação ao status base
+      const hpPercent = ((hpAtual - hpBase) / hpBase) * 100;
+      const defPercent = ((defAtual - defBase) / defBase) * 100;
+      const speedPercent = ((speedAtual - speedBase) / speedBase) * 100;
+      const resPercent = ((resAtual - resBase) / resBase) * 100;
+      const efiPercent = ((efiAtual - efiBase) / efiBase) * 100;
+
+      // Exibir os resultados
+      document.getElementById('resultados').innerHTML = `
+        <h3>Resultados:</h3>
+        <p>❤️ HP: ${hpPercent.toFixed(2)}%</p>
+        <p>🛡️ Defesa: ${defPercent.toFixed(2)}%</p>
+        <p>⚡ Velocidade: ${speedPercent.toFixed(2)}%</p>
+        <p>🌀 Resistência: ${resPercent.toFixed(2)}%</p>
+        <p>🎯 Eficácia: ${efiPercent.toFixed(2)}%</p>
+      `;
     }
 
     // Carregar os heróis ao inicializar a página
