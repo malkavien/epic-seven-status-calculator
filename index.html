@@ -40,6 +40,9 @@
     label {
       font-weight: bold;
       margin-bottom: 5px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
 
     input {
@@ -74,6 +77,20 @@
       border-radius: 12px;
       padding: 20px;
     }
+
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    li {
+      padding: 8px 0;
+      font-size: 1.1rem;
+    }
+
+    hr {
+      border: 1px solid #00d2ff;
+    }
   </style>
 </head>
 <body>
@@ -82,46 +99,46 @@
 
   <div class="calculator">
     <div>
-      <label>HP Atual:</label>
+      <label>❤️ HP Atual:</label>
       <input type="number" id="hpAtual" placeholder="Ex: 10000">
     </div>
     <div>
-      <label>Defesa Atual:</label>
+      <label>🛡️ Defesa Atual:</label>
       <input type="number" id="defAtual" placeholder="Ex: 1200">
     </div>
     <div>
-      <label>Velocidade Atual:</label>
+      <label>⚡ Velocidade Atual:</label>
       <input type="number" id="speedAtual" placeholder="Ex: 200">
     </div>
     <div>
-      <label>Resistência Atual:</label>
+      <label>🌀 Resistência Atual:</label>
       <input type="number" id="resAtual" placeholder="Ex: 100">
     </div>
     <div>
-      <label>Eficácia Atual:</label>
+      <label>🎯 Eficácia Atual:</label>
       <input type="number" id="efiAtual" placeholder="Ex: 50">
     </div>
 
-    <hr style="border: 1px solid #00d2ff;">
+    <hr>
 
     <div>
-      <label>HP Desejado:</label>
+      <label>❤️ HP Desejado:</label>
       <input type="number" id="hpDesejado" placeholder="Ex: 15000">
     </div>
     <div>
-      <label>Defesa Desejada:</label>
+      <label>🛡️ Defesa Desejada:</label>
       <input type="number" id="defDesejado" placeholder="Ex: 1600">
     </div>
     <div>
-      <label>Velocidade Desejada:</label>
+      <label>⚡ Velocidade Desejada:</label>
       <input type="number" id="speedDesejado" placeholder="Ex: 250">
     </div>
     <div>
-      <label>Resistência Desejada:</label>
+      <label>🌀 Resistência Desejada:</label>
       <input type="number" id="resDesejado" placeholder="Ex: 150">
     </div>
     <div>
-      <label>Eficácia Desejada:</label>
+      <label>🎯 Eficácia Desejada:</label>
       <input type="number" id="efiDesejado" placeholder="Ex: 80">
     </div>
 
@@ -153,11 +170,11 @@
       document.getElementById('resultados').innerHTML = `
         <h3>Resultados:</h3>
         <ul>
-          <li><strong>HP:</strong> Falta ${faltaHP}</li>
-          <li><strong>Defesa:</strong> Falta ${faltaDEF}</li>
-          <li><strong>Velocidade:</strong> Falta ${faltaSPD}</li>
-          <li><strong>Resistência:</strong> Falta ${faltaRES}</li>
-          <li><strong>Eficácia:</strong> Falta ${faltaEFI}</li>
+          <li>❤️ <strong>HP:</strong> Falta ${faltaHP}</li>
+          <li>🛡️ <strong>Defesa:</strong> Falta ${faltaDEF}</li>
+          <li>⚡ <strong>Velocidade:</strong> Falta ${faltaSPD}</li>
+          <li>🌀 <strong>Resistência:</strong> Falta ${faltaRES}</li>
+          <li>🎯 <strong>Eficácia:</strong> Falta ${faltaEFI}</li>
         </ul>
       `;
     }
