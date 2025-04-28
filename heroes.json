@@ -1,22 +1,30 @@
-[
+{
+  "heroes": [
     {
-      "nome": "Armin",
-      "attackBase": 721,
-      "healthBase": 3508,
-      "speedBase": 91,
-      "defenseBase": 429,
-      "dualAttackChanceBase": 5.0,
-      "effectivenessBase": 0.0,
-      "resistanceBase": 0.0
+      "name": "Armin",
+      "baseStatus": {
+        "Ataque": 355,
+        "Vida": 3508,
+        "Defesa": 429,
+        "Velocidade": 91,
+        "Chance Crítica": 15.0,
+        "Dano Crítico": 150.0,
+        "Efetividade": 0.0,
+        "Resistência": 0.0
+      }
     },
     {
-      "nome": "Luna",
-      "attackBase": 380,
-      "healthBase": 3300,
-      "speedBase": 97,
-      "defenseBase": 420,
-      "effectivenessBase": 10.0,
-      "resistanceBase": 5.0
+      "name": "Seaside Bellona",
+      "baseStatus": {
+        "Ataque": 1228,
+        "Vida": 5724,
+        "Defesa": 522,
+        "Velocidade": 109,
+        "Chance Crítica": 15.0,
+        "Dano Crítico": 150.0,
+        "Efetividade": 18.0,
+        "Resistência": 0.0
+      }
     }
   ]
-  
+}

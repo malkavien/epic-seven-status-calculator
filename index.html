@@ -2,182 +2,229 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Epic Seven - Calculadora de Status</title>
   <style>
-    /* Estilos para a página */
     body {
       font-family: Arial, sans-serif;
+      background-color: #f0f2f5;
+      margin: 0;
       padding: 20px;
-      background-color: #f4f4f4;
-      color: #333;
     }
-
-    h1 {
+    h1, h2 {
       text-align: center;
     }
-
-    .calculator {
-      display: flex;
-      justify-content: space-around;
-      align-items: flex-start;
-      gap: 20px;
-      flex-wrap: wrap;
+    .section {
+      background: white;
+      padding: 20px;
+      margin-bottom: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
-
-    .fields-column {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      max-width: 300px;
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
     }
-
-    label {
-      font-weight: bold;
+    th, td {
+      padding: 8px;
+      border: 1px solid #ddd;
+      text-align: center;
     }
-
-    input, select {
+    select, input {
+      width: 90%;
       padding: 5px;
-      margin: 5px 0;
-      font-size: 1rem;
+      margin: 2px 0;
     }
-
-    button {
-      padding: 10px 20px;
-      font-size: 1rem;
-      cursor: pointer;
-      background-color: #4CAF50;
-      color: white;
-      border: none;
-      border-radius: 5px;
-    }
-
-    button:hover {
-      background-color: #45a049;
-    }
-
-    .results {
+    .result {
+      background-color: #f9f9f9;
       margin-top: 20px;
       padding: 10px;
-      background-color: #e9e9e9;
-      border-radius: 5px;
+      border-radius: 8px;
     }
-
-    .status-base {
-      background-color: #ddd;
-      padding: 10px;
-      border-radius: 5px;
+    .highlight {
       font-weight: bold;
     }
   </style>
 </head>
 <body>
 
-  <h1>Epic Seven - Calculadora de Status</h1>
+<h1>Epic Seven - Calculadora de Status</h1>
 
-  <div class="calculator">
-    <div class="fields-column">
-      <h3>Status Base do Herói:</h3>
-      <div id="statusBase" class="status-base">
-        <label for="attackBase">Ataque Base:</label>
-        <input type="number" id="attackBase" placeholder="Ex: 355" />
-        <label for="healthBase">HP Base:</label>
-        <input type="number" id="healthBase" placeholder="Ex: 3508" />
-        <label for="speedBase">Velocidade Base:</label>
-        <input type="number" id="speedBase" placeholder="Ex: 91" />
-        <label for="defenseBase">Defesa Base:</label>
-        <input type="number" id="defenseBase" placeholder="Ex: 429" />
-        <label for="resistanceBase">Resistência Base:</label>
-        <input type="number" id="resistanceBase" placeholder="Ex: 150" />
-        <label for="effectivenessBase">Eficácia Base:</label>
-        <input type="number" id="effectivenessBase" placeholder="Ex: 0.0" />
-      </div>
+<div class="section" id="items-section">
+  <h2>Itens</h2>
+  <div id="items"></div>
+</div>
+
+<div class="section" id="desired-status-section">
+  <h2>Status Desejados</h2>
+  <div id="desired-status"></div>
+</div>
+
+<div class="section" id="base-status-section">
+  <h2>Status Base</h2>
+  <div id="base-status"></div>
+</div>
+
+<div class="section result" id="result-section">
+  <h2>Resultado</h2>
+  <div id="results"></div>
+</div>
+
+<script>
+const mainStats = [
+  "Ataque %",
+  "Vida %",
+  "Defesa %",
+  "Velocidade",
+  "Chance Crítica %",
+  "Dano Crítico %",
+  "Efetividade %",
+  "Resistência Efetividade %",
+  "Ataque Plano",
+  "Vida Plano",
+  "Defesa Plano"
+];
+
+const statusList = [
+  "Ataque",
+  "Vida",
+  "Defesa",
+  "Velocidade",
+  "Chance Crítica",
+  "Dano Crítico",
+  "Efetividade",
+  "Resistência"
+];
+
+const itemsDiv = document.getElementById('items');
+const desiredStatusDiv = document.getElementById('desired-status');
+const baseStatusDiv = document.getElementById('base-status');
+const resultsDiv = document.getElementById('results');
+
+function createItem(index) {
+  const div = document.createElement('div');
+  div.innerHTML = `
+    <h3>Item ${index+1}</h3>
+    <label>Status Principal:</label>
+    <select id="mainStat-${index}">
+      ${mainStats.map(stat => `<option value="${stat}">${stat}</option>`).join('')}
+    </select>
+    <div>
+      <h4>Substatus:</h4>
+      ${[0,1,2,3].map(i => `
+        <input placeholder="Substatus ${i+1}" id="subStat-${index}-${i}" />
+      `).join('')}
     </div>
+    <hr/>
+  `;
+  itemsDiv.appendChild(div);
+}
 
-    <div class="fields-column">
-      <label>⚔️ Ataque Atual:</label>
-      <input type="number" id="attackCurrent" placeholder="Ex: 400">
-      <label>❤️ HP Atual:</label>
-      <input type="number" id="healthCurrent" placeholder="Ex: 8000">
-      <label>⚡ Velocidade Atual:</label>
-      <input type="number" id="speedCurrent" placeholder="Ex: 100">
-      <label>🛡️ Defesa Atual:</label>
-      <input type="number" id="defenseCurrent" placeholder="Ex: 500">
-      <label>🛡️ Resistência Atual:</label>
-      <input type="number" id="resistanceCurrent" placeholder="Ex: 150">
-      <label>🎯 Eficácia Atual:</label>
-      <input type="number" id="effectivenessCurrent" placeholder="Ex: 15.0">
-    </div>
+function createStatusInputs(container, prefix) {
+  statusList.forEach(stat => {
+    const div = document.createElement('div');
+    div.innerHTML = `
+      <label>${stat}:</label>
+      <input type="number" id="${prefix}-${stat}" />
+    `;
+    container.appendChild(div);
+  });
+}
 
-    <div class="fields-column">
-      <label>⚔️ Ataque Desejado:</label>
-      <input type="number" id="attackDesired" placeholder="Ex: 500">
-      <label>❤️ HP Desejado:</label>
-      <input type="number" id="healthDesired" placeholder="Ex: 9000">
-      <label>⚡ Velocidade Desejada:</label>
-      <input type="number" id="speedDesired" placeholder="Ex: 110">
-      <label>🛡️ Defesa Desejada:</label>
-      <input type="number" id="defenseDesired" placeholder="Ex: 600">
-      <label>🛡️ Resistência Desejada:</label>
-      <input type="number" id="resistanceDesired" placeholder="Ex: 180">
-      <label>🎯 Eficácia Desejada:</label>
-      <input type="number" id="effectivenessDesired" placeholder="Ex: 20.0">
-    </div>
-  </div>
+function getTotalCurrentStatus() {
+  const total = {
+    "Ataque": 0,
+    "Vida": 0,
+    "Defesa": 0,
+    "Velocidade": 0,
+    "Chance Crítica": 0,
+    "Dano Crítico": 0,
+    "Efetividade": 0,
+    "Resistência": 0
+  };
 
-  <button onclick="calcular()">Calcular Diferença</button>
+  for (let i = 0; i < 6; i++) {
+    const mainStat = document.getElementById(`mainStat-${i}`).value;
+    addStat(total, mainStat);
 
-  <div class="results" id="resultados"></div>
-
-  <script>
-    // Função para calcular a diferença entre o status desejado e o status atual e calcular a porcentagem em relação ao status base
-    function calcular() {
-      const attackBase = parseInt(document.getElementById('attackBase').value) || null;
-      const healthBase = parseInt(document.getElementById('healthBase').value) || null;
-      const speedBase = parseInt(document.getElementById('speedBase').value) || null;
-      const defenseBase = parseInt(document.getElementById('defenseBase').value) || null;
-      const resistanceBase = parseInt(document.getElementById('resistanceBase').value) || null;
-      const effectivenessBase = parseFloat(document.getElementById('effectivenessBase').value) || null;
-
-      const attackCurrent = parseInt(document.getElementById('attackCurrent').value) || null;
-      const healthCurrent = parseInt(document.getElementById('healthCurrent').value) || null;
-      const speedCurrent = parseInt(document.getElementById('speedCurrent').value) || null;
-      const defenseCurrent = parseInt(document.getElementById('defenseCurrent').value) || null;
-      const resistanceCurrent = parseInt(document.getElementById('resistanceCurrent').value) || null;
-      const effectivenessCurrent = parseFloat(document.getElementById('effectivenessCurrent').value) || null;
-
-      const attackDesired = parseInt(document.getElementById('attackDesired').value) || null;
-      const healthDesired = parseInt(document.getElementById('healthDesired').value) || null;
-      const speedDesired = parseInt(document.getElementById('speedDesired').value) || null;
-      const defenseDesired = parseInt(document.getElementById('defenseDesired').value) || null;
-      const resistanceDesired = parseInt(document.getElementById('resistanceDesired').value) || null;
-      const effectivenessDesired = parseFloat(document.getElementById('effectivenessDesired').value) || null;
-
-      // Calcular a diferença entre o status desejado e o status atual
-      const attackResult = attackDesired !== null ? attackDesired - (attackCurrent || 0) : "-";
-      const healthResult = healthDesired !== null ? healthDesired - (healthCurrent || 0) : "-";
-      const speedResult = speedDesired !== null ? speedDesired - (speedCurrent || 0) : "-";
-      const defenseResult = defenseDesired !== null ? defenseDesired - (defenseCurrent || 0) : "-";
-      const resistanceResult = resistanceDesired !== null ? resistanceDesired - (resistanceCurrent || 0) : "-";
-      const effectivenessResult = effectivenessDesired !== null ? effectivenessDesired - (effectivenessCurrent || 0) : "-";
-
-      // Calcular a porcentagem em relação ao status base, se possível
-      const attackPercent = attackResult !== "-" ? (attackResult / attackBase) * 100 : "-";
-      const healthPercent = healthResult !== "-" ? (healthResult / healthBase) * 100 : "-";
-      const defensePercent = defenseResult !== "-" ? (defenseResult / defenseBase) * 100 : "-";
-
-      // Exibir os resultados
-      document.getElementById('resultados').innerHTML = `
-        <h3>Resultados:</h3>
-        <p>⚔️ Ataque: ${attackResult} | ${attackPercent !== "-" ? attackPercent.toFixed(2) + "%" : "-"}</p>
-        <p>❤️ HP: ${healthResult} | ${healthPercent !== "-" ? healthPercent.toFixed(2) + "%" : "-"}</p>
-        <p>🛡️ Defesa: ${defenseResult} | ${defensePercent !== "-" ? defensePercent.toFixed(2) + "%" : "-"}</p>
-        <p>⚡ Velocidade: ${speedResult}</p>
-        <p>🛡️ Resistência: ${resistanceResult}</p>
-        <p>🎯 Eficácia: ${effectivenessResult}</p>
-      `;
+    for (let j = 0; j < 4; j++) {
+      const sub = document.getElementById(`subStat-${i}-${j}`).value;
+      if (sub.trim() !== "") {
+        addStat(total, sub);
+      }
     }
-  </script>
+  }
+
+  return total;
+}
+
+function addStat(total, statStr) {
+  const parts = statStr.split(' ');
+  if (parts.length < 2) return;
+
+  let value = parseFloat(parts[0].replace(',', '.'));
+  const statName = parts.slice(1).join(' ').replace('%', '').trim();
+
+  if (isNaN(value)) return;
+
+  if (statName in total) {
+    total[statName] += value;
+  }
+}
+
+function calculateResults() {
+  const current = getTotalCurrentStatus();
+  const desired = {};
+  const base = {};
+
+  statusList.forEach(stat => {
+    const desiredVal = document.getElementById(`desired-${stat}`).value;
+    const baseVal = document.getElementById(`base-${stat}`).value;
+
+    desired[stat] = desiredVal ? parseFloat(desiredVal) : null;
+    base[stat] = baseVal ? parseFloat(baseVal) : null;
+  });
+
+  resultsDiv.innerHTML = `
+    <table>
+      <tr>
+        <th>Status</th>
+        <th>Atual</th>
+        <th>Desejado</th>
+        <th>Falta</th>
+        <th>% em relação ao Base</th>
+      </tr>
+      ${statusList.map(stat => {
+        const atual = current[stat] || 0;
+        const desejado = desired[stat];
+        const baseStat = base[stat];
+        const falta = (desejado != null) ? (desejado - atual) : "-";
+        const porcentagem = (desejado != null && baseStat) ? ((falta / baseStat) * 100).toFixed(1) + "%" : "-";
+
+        return `
+          <tr>
+            <td>${stat}</td>
+            <td>${atual}</td>
+            <td>${desejado != null ? desejado : '-'}</td>
+            <td>${falta != null ? falta : '-'}</td>
+            <td>${porcentagem}</td>
+          </tr>
+        `;
+      }).join('')}
+    </table>
+  `;
+}
+
+for (let i = 0; i < 6; i++) {
+  createItem(i);
+}
+
+createStatusInputs(desiredStatusDiv, "desired");
+createStatusInputs(baseStatusDiv, "base");
+
+document.addEventListener('input', calculateResults);
+
+</script>
 
 </body>
 </html>
